@@ -4,8 +4,8 @@ const { Client } = require("pg");
 require("dotenv").config();
 
 const setupQuery = `
-DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE IF NOT EXISTS users (
    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS users (
    password VARCHAR (255),
    first_name VARCHAR (255),
    last_name VARCHAR (255),
-   member BOOLEAN,
-   admin BOOLEAN
+   member BOOLEAN DEFAULT FALSE,
+   admin BOOLEAN DEFAULT FALSE
 );
    
 CREATE TABLE IF NOT EXISTS messages (

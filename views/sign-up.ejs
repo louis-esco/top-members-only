@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="/assets/pika.svg" />
+    <title>Message Board</title>
+  </head>
+  <body>
+    <h1 class="mainTitle">Sign up form</h1>
+    <%- include("./partials/errors.ejs") %>
+    <form action="/sign-up" method="post">
+      <label for="firstName">First name:</label>
+      <input
+        value="<%= formData.firstName %>"
+        required
+        type="text"
+        name="firstName"
+        id="firstName"
+      />
+      <label for="lastName">Last name:</label>
+      <input
+        value="<%= formData.lastName %>"
+        required
+        type="text"
+        name="lastName"
+        id="lastName"
+      />
+      <label for="username">Username:</label>
+      <input
+        value="<%= formData.username %>"
+        required
+        type="text"
+        name="username"
+        id="username"
+      />
+      <label for="password">Password:</label>
+      <input required type="password" name="password" id="password" />
+      <label for="passwordConfirmation">Confirm password:</label>
+      <input
+        required
+        type="password"
+        name="passwordConfirmation"
+        id="passwordConfirmation"
+      />
+      <button type="submit">Sign up</button>
+    </form>
+  </body>
+</html>

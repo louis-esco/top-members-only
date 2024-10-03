@@ -8,17 +8,19 @@
     <title>Message Board</title>
   </head>
   <body>
+    <%- include("./partials/header.ejs") %>
     <h1 class="mainTitle">Messages list</h1>
     <ul class="msgsList">
       <% messages.forEach((msg) => { %>
       <li>
         <div class="message"><%= msg.message %></div>
-        <% if (isAuth) { %>
+        <% if (isMember) { %>
         <div class="author">Author: <%= msg.author %></div>
         <div class="createdAt">Created at: <%= msg.created_at %></div>
         <% } %>
       </li>
       <% }); %>
     </ul>
+    <%- include("./partials/footer.ejs") %>
   </body>
 </html>
