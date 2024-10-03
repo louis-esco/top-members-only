@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="/assets/pika.svg" />
+    <title>Message Board</title>
+  </head>
+  <body>
+    <h1 class="mainTitle">Messages list</h1>
+    <ul class="msgsList">
+      <% messages.forEach((msg) => { %>
+      <li>
+        <div class="message"><%= msg.message %></div>
+        <% if (isAuth) { %>
+        <div class="author">Author: <%= msg.author %></div>
+        <div class="createdAt">Created at: <%= msg.created_at %></div>
+        <% } %>
+      </li>
+      <% }); %>
+    </ul>
+  </body>
+</html>
