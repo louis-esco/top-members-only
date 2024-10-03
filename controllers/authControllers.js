@@ -39,11 +39,6 @@ const getSignupForm = async (req, res) => {
 };
 
 const postSignupForm = [
-  (req, res, next) => {
-    console.log(req.body.password);
-    console.log(req.body.passwordConfirmation);
-    next();
-  },
   validateUser,
   async (req, res) => {
     const errors = validationResult(req);
