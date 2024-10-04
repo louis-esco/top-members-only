@@ -1,5 +1,6 @@
 const db = require("../db/queries");
 const { body, validationResult } = require("express-validator");
+const passport = require("passport");
 
 const validateUser = [
   body("username")
@@ -34,8 +35,14 @@ const validateUser = [
     .withMessage("Passwords don't match"),
 ];
 
-const getSignupForm = async (req, res) => {
-  res.render("sign-up");
+const getSignupForm = (req, res) => {
+  res.render("./auth/sign-up", {
+    formData: {
+      username: null,
+      firstName: null,
+      lastName: null,
+    },
+  });
 };
 
 const postSignupForm = [
@@ -43,7 +50,7 @@ const postSignupForm = [
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("sign-up", {
+      return res.status(400).render("./auth/sign-up", {
         errors: errors.array(),
         formData: {
           username: req.body.username,
@@ -62,7 +69,30 @@ const postSignupForm = [
   },
 ];
 
+const getLogin = (req, res) => {
+  res.render("./auth/log-in");
+};
+
+const postLogin = (req, res, next) => {
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  })(req, res, next);
+};
+
+const getLogout = (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+};
+
 module.exports = {
   getSignupForm,
   postSignupForm,
+  getLogin,
+  postLogin,
+  getLogout,
 };

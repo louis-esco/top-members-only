@@ -9,11 +9,11 @@
   </head>
   <body>
     <h1 class="mainTitle">Sign up form</h1>
-    <%- include("./partials/errors.ejs") %>
+    <%- include("../partials/errors.ejs") %>
     <form action="/sign-up" method="post">
       <label for="firstName">First name:</label>
       <input
-        value="<%= formData.firstName %>"
+        value="<%= formData.username %>"
         required
         type="text"
         name="firstName"
