@@ -6,6 +6,7 @@ const passport = require("passport");
 
 const router = express.Router();
 
+// Public routes
 router.get("/", indexControllers.getMessages);
 
 router.get("/sign-up", authControllers.getSignupForm);
@@ -15,6 +16,9 @@ router.get("/log-in", authControllers.getLogin);
 router.post("/log-in", authControllers.postLogin);
 
 router.get("/log-out", authControllers.getLogout);
+
+// Protected routes
+router.use(authControllers.isAuth);
 
 router.get("/new-message", msgControllers.getNewMessage);
 router.post("/new-message", msgControllers.postNewMessage);

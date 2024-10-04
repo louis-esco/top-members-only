@@ -13,17 +13,17 @@ async function getUser(user) {
   return rows;
 }
 
-async function createUser(username, password, firstName, lastName) {
+async function createUser(username, password, firstName, lastName, admin) {
   bcrypt.hash(password, 10, async (err, hash) => {
     if (err) {
       console.log("There was an error:", err);
       return err;
     }
     await pool.query(
-      `INSERT INTO users (username, password, first_name, last_name)
+      `INSERT INTO users (username, password, first_name, last_name, admin)
         VALUES
-        ($1, $2, $3, $4)`,
-      [username, hash, firstName, lastName]
+        ($1, $2, $3, $4, $5)`,
+      [username, hash, firstName, lastName, admin]
     );
   });
 }

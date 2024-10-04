@@ -70,11 +70,13 @@ const postSignupForm = [
         },
       });
     }
+    const admin = req.body.admin === "true" ? true : false;
     await db.createUser(
       req.body.username,
       req.body.password,
       req.body.firstName,
-      req.body.lastName
+      req.body.lastName,
+      admin
     );
     res.redirect("/");
   },
@@ -127,10 +129,16 @@ const getLogout = (req, res, next) => {
   });
 };
 
+const isAuth = (req, res, next) => {
+  if (req.isAuthenticated()) return next();
+  res.redirect("/");
+};
+
 module.exports = {
   getSignupForm,
   postSignupForm,
   getLogin,
   postLogin,
   getLogout,
+  isAuth,
 };
