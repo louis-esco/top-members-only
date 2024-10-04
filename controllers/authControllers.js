@@ -2,7 +2,7 @@ const db = require("../db/queries");
 const { body, validationResult } = require("express-validator");
 const passport = require("passport");
 
-const validateUser = [
+const validateSignup = [
   body("username")
     .trim()
     .notEmpty()
@@ -35,6 +35,23 @@ const validateUser = [
     .withMessage("Passwords don't match"),
 ];
 
+const validateLogin = [
+  body("username")
+    .trim()
+    .notEmpty()
+    .withMessage("Username can't be empty")
+    .isAlphanumeric()
+    .withMessage("Username must only contain letters and numbers")
+    .custom(async (value) => {
+      const user = await db.getUser(value);
+      if (user[0]) {
+        throw new Error("This username is not available");
+      }
+    }),
+
+  body("password").notEmpty().withMessage("Password can't be empty"),
+];
+
 const getSignupForm = (req, res) => {
   res.render("./auth/sign-up", {
     formData: {
@@ -46,7 +63,7 @@ const getSignupForm = (req, res) => {
 };
 
 const postSignupForm = [
-  validateUser,
+  validateSignup,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -70,15 +87,50 @@ const postSignupForm = [
 ];
 
 const getLogin = (req, res) => {
-  res.render("./auth/log-in");
+  res.render("./auth/log-in", { username: null });
 };
 
-const postLogin = (req, res, next) => {
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
-  })(req, res, next);
-};
+// const postLogin = (req, res, next) => {
+//   passport.authenticate("local", {
+//     successRedirect: "/",
+//     failureRedirect: "/",
+//   })(req, res, next);
+// };
+
+const postLogin = [
+  validateLogin,
+  (req, res, next) => {
+    console.log(req.body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("./auth/log-in", {
+        errors: errors.array(),
+        username: req.body.username,
+      });
+    }
+    next();
+  },
+  (req, res, next) => {
+    const errors = validationResult(req);
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(400).render("./auth/log-in", {
+          errors: [info],
+          username: req.body.username,
+        });
+      }
+      req.logIn(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        return res.redirect("/");
+      });
+    })(req, res, next);
+  },
+];
 
 const getLogout = (req, res, next) => {
   req.logout((err) => {
