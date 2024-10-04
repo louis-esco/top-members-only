@@ -14,7 +14,7 @@
       <% messages.forEach((msg) => { %>
       <li>
         <div class="message"><%= msg.message %></div>
-        <% if (isMember) { %>
+        <% if (locals.isMember) { %>
         <div class="author">Author: <%= msg.author %></div>
         <div class="createdAt">Created at: <%= msg.created_at %></div>
         <% } %>

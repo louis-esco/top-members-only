@@ -41,13 +41,7 @@ const validateLogin = [
     .notEmpty()
     .withMessage("Username can't be empty")
     .isAlphanumeric()
-    .withMessage("Username must only contain letters and numbers")
-    .custom(async (value) => {
-      const user = await db.getUser(value);
-      if (user[0]) {
-        throw new Error("This username is not available");
-      }
-    }),
+    .withMessage("Username must only contain letters and numbers"),
 
   body("password").notEmpty().withMessage("Password can't be empty"),
 ];
@@ -90,17 +84,9 @@ const getLogin = (req, res) => {
   res.render("./auth/log-in", { username: null });
 };
 
-// const postLogin = (req, res, next) => {
-//   passport.authenticate("local", {
-//     successRedirect: "/",
-//     failureRedirect: "/",
-//   })(req, res, next);
-// };
-
 const postLogin = [
   validateLogin,
   (req, res, next) => {
-    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).render("./auth/log-in", {

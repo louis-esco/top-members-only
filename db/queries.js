@@ -28,8 +28,19 @@ async function createUser(username, password, firstName, lastName) {
   });
 }
 
+async function createMessage(message, user) {
+  await pool.query(
+    `INSERT INTO messages (message, user_id)
+        VALUES
+        ($1, $2)
+        `,
+    [message, user]
+  );
+}
+
 module.exports = {
   getMessages,
   getUser,
   createUser,
+  createMessage,
 };
