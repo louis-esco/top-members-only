@@ -34,4 +34,9 @@ app.use(passport.session());
 
 app.use("/", router);
 
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).send(err.message);
+});
+
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`));

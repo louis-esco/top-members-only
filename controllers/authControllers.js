@@ -59,26 +59,31 @@ const getSignupForm = (req, res) => {
 const postSignupForm = [
   validateSignup,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).render("./auth/sign-up", {
-        errors: errors.array(),
-        formData: {
-          username: req.body.username,
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-        },
-      });
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).render("./auth/sign-up", {
+          errors: errors.array(),
+          formData: {
+            username: req.body.username,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+          },
+        });
+      }
+      const admin = req.body.admin === "true" ? true : false;
+      await db.createUser(
+        req.body.username,
+        req.body.password,
+        req.body.firstName,
+        req.body.lastName,
+        admin
+      );
+      res.redirect("/");
+    } catch (error) {
+      console.error("Error in postSignupForm controller", error);
+      next(error);
     }
-    const admin = req.body.admin === "true" ? true : false;
-    await db.createUser(
-      req.body.username,
-      req.body.password,
-      req.body.firstName,
-      req.body.lastName,
-      admin
-    );
-    res.redirect("/");
   },
 ];
 

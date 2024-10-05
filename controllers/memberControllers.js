@@ -21,16 +21,21 @@ const getMembership = (req, res) => {
 
 const postMembership = [
   validatePasscode,
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).render("member", {
-        errors: errors.array(),
-        isAuth: req.isAuthenticated(),
-      });
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).render("member", {
+          errors: errors.array(),
+          isAuth: req.isAuthenticated(),
+        });
+      }
+      await db.becomeMember(req.user.id);
+      res.redirect("/");
+    } catch (error) {
+      console.error("Error in postMembership controller", error);
+      next(error);
     }
-    await db.becomeMember(req.user.id);
-    res.redirect("/");
   },
 ];
 
