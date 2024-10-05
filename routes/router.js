@@ -18,7 +18,7 @@ router.post("/log-in", authControllers.postLogin);
 
 router.get("/log-out", authControllers.getLogout);
 
-// Protected routes
+// Protected routes for authenticated users
 router.use(authControllers.isAuth);
 
 router.get("/new-message", msgControllers.getNewMessage);
@@ -26,5 +26,10 @@ router.post("/new-message", msgControllers.postNewMessage);
 
 router.get("/member", memberControllers.getMembership);
 router.post("/member", memberControllers.postMembership);
+
+// Protected routes for admins
+router.use(authControllers.isAdmin);
+
+router.post("/delete/:id", msgControllers.postDeleteMessage);
 
 module.exports = router;

@@ -49,6 +49,10 @@ async function createMessage(message, user) {
   );
 }
 
+async function deleteMsg(msg_id) {
+  await pool.query(`DELETE FROM messages WHERE id = $1`, [msg_id]);
+}
+
 async function becomeMember(user_id) {
   await pool.query(
     `UPDATE users
@@ -64,5 +68,6 @@ module.exports = {
   getUserById,
   createUser,
   createMessage,
+  deleteMsg,
   becomeMember,
 };

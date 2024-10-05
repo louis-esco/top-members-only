@@ -134,6 +134,11 @@ const isAuth = (req, res, next) => {
   res.redirect("/");
 };
 
+const isAdmin = (req, res, next) => {
+  if (req.user.admin) return next();
+  res.redirect("/");
+};
+
 module.exports = {
   getSignupForm,
   postSignupForm,
@@ -141,4 +146,5 @@ module.exports = {
   postLogin,
   getLogout,
   isAuth,
+  isAdmin,
 };

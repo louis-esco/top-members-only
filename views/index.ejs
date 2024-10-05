@@ -14,9 +14,13 @@
       <% messages.forEach((msg) => { %>
       <li>
         <div class="message"><%= msg.message %></div>
-        <% if (locals.isMember) { %>
+        <% if (locals.isMember || locals.isAdmin) { %>
         <div class="author">Author: <%= msg.author %></div>
         <div class="createdAt">Created at: <%= msg.created_at %></div>
+        <% } %> <% if (locals.isAdmin) { %>
+        <form action="/delete/<%= msg.id %>" method="post">
+          <button type="submit">Delete message</button>
+        </form>
         <% } %>
       </li>
       <% }); %>

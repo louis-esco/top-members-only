@@ -26,4 +26,9 @@ const postNewMessage = [
   },
 ];
 
-module.exports = { getNewMessage, postNewMessage };
+const postDeleteMessage = async (req, res) => {
+  await db.deleteMsg(req.params.id);
+  res.redirect("/");
+};
+
+module.exports = { getNewMessage, postNewMessage, postDeleteMessage };
