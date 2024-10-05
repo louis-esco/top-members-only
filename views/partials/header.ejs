@@ -2,7 +2,9 @@
   <% if(!locals.isAuth) { %>
   <a href="/sign-up"><button>Sign up</button></a>
   <a href="/log-in"><button>Log in</button></a>
-  <% } %><% if(locals.isAuth) { %>
+  <% } %> <% if(locals.isAuth) { %>
   <a href="/log-out"><button>Log out</button></a>
-  <% } %>
+  <% if(!locals.isMember) { %>
+  <a href="/member"><button>Become a member</button></a>
+  <% } %> <% } %>
 </header>

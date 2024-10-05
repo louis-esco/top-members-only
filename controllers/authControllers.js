@@ -10,7 +10,7 @@ const validateSignup = [
     .isAlphanumeric()
     .withMessage("Username must only contain letters and numbers")
     .custom(async (value) => {
-      const user = await db.getUser(value);
+      const user = await db.getUserByUsername(value);
       if (user[0]) {
         throw new Error("This username is not available");
       }
