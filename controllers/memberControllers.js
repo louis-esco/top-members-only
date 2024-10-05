@@ -14,7 +14,9 @@ const validatePasscode = [
 ];
 
 const getMembership = (req, res) => {
-  res.render("member");
+  res.render("member", {
+    isAuth: req.isAuthenticated(),
+  });
 };
 
 const postMembership = [
@@ -24,6 +26,7 @@ const postMembership = [
     if (!errors.isEmpty()) {
       return res.status(400).render("member", {
         errors: errors.array(),
+        isAuth: req.isAuthenticated(),
       });
     }
     await db.becomeMember(req.user.id);

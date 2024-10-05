@@ -99,7 +99,6 @@ const postLogin = [
     next();
   },
   (req, res, next) => {
-    const errors = validationResult(req);
     passport.authenticate("local", (err, user, info) => {
       if (err) {
         return next(err);
