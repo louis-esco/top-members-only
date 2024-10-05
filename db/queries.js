@@ -2,7 +2,11 @@ const pool = require("./pool");
 const bcrypt = require("bcryptjs");
 
 async function getMessages() {
-  const { rows } = await pool.query("SELECT * FROM messages");
+  const { rows } = await pool.query(`
+    SELECT messages.id, messages.message, messages.created_at, CONCAT_WS(' ', users.first_name, users.last_name) AS author
+    FROM messages
+    LEFT JOIN users ON users.id = messages.user_id;
+    `);
   return rows;
 }
 
