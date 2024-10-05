@@ -72,7 +72,7 @@ async function createMessage(message, user) {
 
 async function deleteMsg(msg_id) {
   try {
-    await pool.query(`DELETE FROM messages WHERE d = $1`, [msg_id]);
+    await pool.query(`DELETE FROM messages WHERE id = $1`, [msg_id]);
   } catch (error) {
     console.error("Error deleting message in db", error);
     throw error;
