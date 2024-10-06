@@ -1,4 +1,4 @@
-# top-members-only
+# The Odin Project - Members Only
 
 ## Live preview
 Deployed at: https://top-members-only-alyf.onrender.com/ 
